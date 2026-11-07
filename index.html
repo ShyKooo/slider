@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slider</title>
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js"></script>
+</head>
+<body>
+    <section class="slider">
+        <h2>Слайдер</h2>
+        <div class="slider__wrap" data-swipe="true">
+            <div class="slider__slides">
+                <div class="slider__slide" style="background-image: url('img/slide1.jpg');"></div>
+                <div class="slider__slide" style="background-image: url('img/slide2.jpg');"></div>
+                <div class="slider__slide" style="background-image: url('img/slide3.jpg');"></div>
+                <div class="slider__slide" style="background-image: url('img/slide4.jpg');"></div>
+                <div class="slider__slide" style="background-image: url('img/slide5.jpg');"></div>
+            </div>
+            <div class="slider__arrows">
+                <img class="slider__arrow slider__arrow_left" alt="sliderArrow" draggable="false" src="img/arrow.svg"/>
+                <img class="slider__arrow slider__arrow_right" alt="sliderArrow" draggable="false" src="img/arrow.svg"/>
+            </div>
+        </div>
+        <script>createsliders()</script>
+    </section>
+</body>
+</html>
