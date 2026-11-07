@@ -17,6 +17,7 @@ h2 {
     overflow: hidden;
     width: 400px;
     user-select: none;
+    touch-action: pan-y;
 }
 .slider__slides {
     height: 300px;
