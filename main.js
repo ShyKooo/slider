@@ -14,35 +14,13 @@ function createsliders(arrSliders = false) {
         //Настройки слайдеров, передавать в data .slider__wrap
         let swipe = slidersWrap[i].dataset.swipe == 'true';
         let dots = slidersWrap[i].dataset.dots == 'true';
+        let thumbs = slidersWrap[i].dataset.thumbs == 'true';
 
         //Если меньше 2 слайдов - не создаем слайдер и удаляем стрелки
         if (slides.length < 2) {
             if (arrows[0])
                 arrows[0].parentNode.remove();
             continue;
-        }
-
-        function moveSlide(step = 0) {
-            if (step !== 0 && isAnimating)
-                return;
-            if (step !== 0)
-                isAnimating = true;
-            if (dots)
-                allDots[dotIndex()].classList.remove('active');
-            currentIndex += step;
-            if (dots)
-                allDots[dotIndex()].classList.add('active');
-            sliders.style.transform = 'translateX(-' + currentIndex * 100 + '%)';
-        }
-
-        //Обработка краевых точек у клонов
-        function dotIndex() {
-            if (currentIndex === 0)
-                return slidesLength - 1;
-            else if (currentIndex === slidesLength + 1)
-                return 0;
-            else
-                return currentIndex - 1;
         }
 
         //Клоны для вечного скролла
@@ -56,6 +34,36 @@ function createsliders(arrSliders = false) {
         sliders.appendChild(firstClone);
 
         let slidesLength = slides.length - 2;
+
+        function moveSlide(step = 0) {
+            if (step !== 0 && isAnimating)
+                return;
+            if (step !== 0)
+                isAnimating = true;
+            if (dots || thumbs)
+                allDots[dotIndex()].classList.remove('active');
+            currentIndex += step;
+            if (dots || thumbs) {
+                allDots[dotIndex()].classList.add('active');
+                if (thumbs) {
+                    allDots[dotIndex()].scrollIntoView({
+                        inline: 'center',
+                        block: 'nearest'
+                    });
+                }
+            }
+            sliders.style.transform = 'translateX(-' + currentIndex * 100 + '%)';
+        }
+
+        //Обработка краевых точек у клонов
+        function dotIndex() {
+            if (currentIndex === 0)
+                return slidesLength - 1;
+            else if (currentIndex === slidesLength + 1)
+                return 0;
+            else
+                return currentIndex - 1;
+        }
 
         //Обработчик для стрелок, 0 - стрелка "назад", 1 - стрелка "вперед"
         for (let arr = 0; arr < 2; arr++) {
@@ -120,21 +128,29 @@ function createsliders(arrSliders = false) {
             });
         }
 
-        //Функционал точек
-        if (dots) {
+        //Функционал точек/миниатюр
+        if (dots || thumbs) {
             let dotsDiv = document.createElement('div');
             dotsDiv.classList.add('slider__dots');
+            if (thumbs)
+                dotsDiv.classList.add('slider__thumbs');
             for (let i = 0; i < slidesLength; i++) {
                 let dot = document.createElement('a');
                 dot.classList.add('slider__dot');
+                if (thumbs) {
+                    dot.classList.add('slider__thumb');
+                    dot.style.backgroundImage = slides[i + 1].style.backgroundImage;
+                }   
                 dotsDiv.append(dot);
                 dot.addEventListener('click', () => {
                     moveSlide(i + 1 - currentIndex);
                 });
                 allDots.push(dot);
             }
-
-            slidersWrap[i].append(dotsDiv);
+            if (thumbs)
+                slidersWrap[i].insertAdjacentElement('afterend', dotsDiv);    
+            else
+                slidersWrap[i].append(dotsDiv);
         }
 
         moveSlide(0);
