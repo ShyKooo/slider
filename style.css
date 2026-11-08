@@ -57,3 +57,34 @@ h2 {
 .slider__arrow_right {
     transform: rotate(180deg);
 }
+.slider__dots {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 10px;
+    display: flex;
+    gap: 10px;
+}
+.slider__dot {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.slider__dot:hover {
+    background-color: #a7a7a7;
+}
+.slider__dot.active::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #a7a7a7;
+}
